@@ -1,0 +1,32 @@
+# Include test cases
+-cp src/
+-cp tests/
+-main TestCaseMain
+-neko build/neko/test.n
+-dce full
+--no-inline
+-cmd /usr/local/bin/neko build/neko/test.n
+# TestCases in Java
+# --next
+#-cp src/
+#-cp tests/
+#-main TestCaseMain
+#-java build/java
+#-dce full
+#-cmd java -jar build/java/TestCaseMain.jar
+# Compile
+
+#--next
+#-cp src/
+#-main HxLisp
+#-neko build/neko/hxlisp.n
+#-dce full
+#-cmd /usr/local/bin/neko build/neko/hxlisp.n
+
+--next
+-cp src/
+-main HxLisp
+-js build/js/hxlisp.js
+-dce full
+-cmd node build/js/hxlisp.js
+#--no-traces
