@@ -10,10 +10,6 @@ class Parser {
     static public function read_from_tokens(strtokens:Array<String>):Array<Dynamic> {
         return [1];
     }
-    static public function atom(token:String):Atom {
-        return Atom.Number(Std.parseInt(token));
-    }
-
 
     inline static function isSeparator(str:String) {
         var regex = ~/^[()]{1}/u;

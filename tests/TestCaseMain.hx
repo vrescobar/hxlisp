@@ -1,8 +1,6 @@
 import hxlisp.Parser.*;
 import hxlisp.Atom;
-
-import haxe.unit.TestCase;
-
+import hxlisp.Atom.AtomHelpers.*;
 import TestHelper;
 
 
@@ -29,12 +27,16 @@ class TestParser extends TestHelper {
                                                                   '(', 'begin', '(', 'define', 'r', '10', ')',
                                                                   '(', '*', 'pi', '(', '*', 'r', 'r', ')', ')', ')']);
     }
-    public function testAtomizer() {
-        this.assertTypes(AtomHelper.atom("0"), 0);
-        //this.assertEquals(atom("14"), Atom.Number(14));
-        //this.assertEquals(atom("a"), Atom.Symbol("a"));
-        //this.assertTrue(parse("a", ["a"]));
-        //this.assertEquals(parse("a"), ["a"]));
+    public function testAtomFloats() {
+        this.assertTypes(atom("0"), 0);
+        this.assertTypes(atom("14"), 14);
+        this.assertTypes(atom("0.32"), 0.32);
+        this.assertTypes(atom("-990.3123000002"), -990.3123000002);
+    }
+    public function testAtomStrings() {
+        this.assertTypes(atom("a"), "a");
+        this.assertTypes(atom("blablabla!"), "blablabla!");
+        this.assertTypes(atom("Int->Float"), "Int->Float");
 
 
     }

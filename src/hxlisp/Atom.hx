@@ -3,17 +3,22 @@ package hxlisp;
 enum Atom {
     Number(n:Float);
     Symbol(s:String);
-    List(l:Array<Atom>);
+    // List(l:Array<Atom>); No
 }
 
-class AtomHelper {
+class AtomHelpers {
     static public function atom(token:String):Atom {
-        return Atom.Number(Std.parseInt(token));
+        var maybeFloat = Std.parseFloat(token);
+        if (!Math.isNaN(maybeFloat)) {
+            return Atom.Number(maybeFloat);
+        }
+        // Lists are created explicitly in the parse function
+        return Atom.Symbol(token);
     }
 }
 
 
-abstract Number(Float) {
+/*abstract toNumber(Float) {
     inline public function new(x:String){
         var maybeInt = Std.parseInt(x);
         if (Std.is(maybeInt, Int)) {
@@ -27,7 +32,7 @@ abstract Number(Float) {
         }
 
     }
-}
+}*/
 
 
 /*

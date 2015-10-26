@@ -34,7 +34,7 @@ class TestHelper extends haxe.unit.TestCase {
         switch original_atom {
             case Atom.Number(n): assertEquals(n,atom);
             case Atom.Symbol(s):  assertEquals(s, atom);
-            case Atom.List(l):  assertArrays(l, atom);
+            //case Atom.List(l):  assertArrays(l, atom);
         }
 
     }
