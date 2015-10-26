@@ -1,42 +1,43 @@
 import hxlisp.Parser.*;
+//import hxlisp.Types;
+
 import haxe.unit.TestCase;
 
-using TestHelpers;
+import TestHelper;
 
 
-class TestParser extends haxe.unit.TestCase {
+class TestParser extends TestHelper {
     public function testTokenizer(){
-        this.assertTrue(tokenize("").assertArrays([]));
-        this.assertTrue(tokenize(" ").assertArrays([]));
-        this.assertTrue(tokenize("     ").assertArrays([]));
-        this.assertTrue(tokenize("   \n  ").assertArrays([]));
-        this.assertTrue(tokenize("  \n\t \t\n  ").assertArrays([]));
-        this.assertTrue(tokenize("(").assertArrays(["("]));
-        this.assertTrue(tokenize(")").assertArrays([")"]));
-        this.assertTrue(tokenize(")  (").assertArrays([")", "("]));
-        this.assertTrue(tokenize("()").assertArrays(["(", ")"]));
-        this.assertTrue(tokenize("1").assertArrays(["1"]));
-        this.assertTrue(tokenize("32").assertArrays(["32"]));
-        this.assertTrue(tokenize(" 0 65").assertArrays(["0", "65"]));
-        this.assertTrue(tokenize("abc def").assertArrays(["abc", "def"]));
-        this.assertTrue(tokenize("isBool? true").assertArrays(["isBool?", "true"]));
-        this.assertTrue(tokenize("-> <|> &%").assertArrays(["->", "<|>", "&%"]));
-        this.assertTrue(tokenize("(object.method arg1 arg2)").assertArrays(['(', 'object.method', 'arg1', 'arg2', ')']));
-        this.assertTrue(tokenize("(abc (def ghi))").assertArrays(["(","abc","(","def","ghi",")", ")"]));
-        this.assertTrue(tokenize("(begin (define r 10) (* pi (* r r)))").assertArrays([
+        this.assertArrays(tokenize(""), []);
+        this.assertArrays(tokenize(" "), []);
+        this.assertArrays(tokenize("     "), []);
+        this.assertArrays(tokenize("   \n  "), []);
+        this.assertArrays(tokenize("  \n\t \t\n  "), []);
+        this.assertArrays(tokenize("("), ["("]);
+        this.assertArrays(tokenize(")"), [")"]);
+        this.assertArrays(tokenize(")  ("), [")", "("]);
+        this.assertArrays(tokenize("()"), ["(", ")"]);
+        this.assertArrays(tokenize("1"), ["1"]);
+        this.assertArrays(tokenize("32"), ["32"]);
+        this.assertArrays(tokenize(" 0 65"), ["0", "65"]);
+        this.assertArrays(tokenize("abc def"), ["abc", "def"]);
+        this.assertArrays(tokenize("isBool? true"), ["isBool?", "true"]);
+        this.assertArrays(tokenize("-> <|> &%"), ["->", "<|>", "&%"]);
+        this.assertArrays(tokenize("(object.method arg1 arg2)"), ['(', 'object.method', 'arg1', 'arg2', ')']);
+        this.assertArrays(tokenize("(abc (def ghi))"), ["(","abc","(","def","ghi",")", ")"]);
+        this.assertArrays(tokenize("(begin (define r 10) (* pi (* r r)))"), [
                                                                   '(', 'begin', '(', 'define', 'r', '10', ')',
-                                                                  '(', '*', 'pi', '(', '*', 'r', 'r', ')', ')', ')']));
+                                                                  '(', '*', 'pi', '(', '*', 'r', 'r', ')', ')', ')']);
     }
-    public function testParser() {
-        //tokenize(program)
-        //['(', 'begin', '(', 'define', 'r', '10', ')', '(', '*', 'pi', '(', '*', 'r', 'r', ')', ')', ')']
+    //public function testAtomizer() {
+        //this.assertEquals(atom("0"), Atom.Number(0));
+        //this.assertEquals(atom("14"), Atom.Number(14));
+        //this.assertEquals(atom("a"), Atom.Symbol("a"));
+        //this.assertTrue(parse("a", ["a"]));
+        //this.assertEquals(parse("a"), ["a"]));
 
-        this.assertTrue(parse("").assertArrays([]));
-        //this.assertTrue(parse("a").assertArrays(["a"]));
-        //this.assertEquals(parse("a"), ["a"]);
 
-
-    }
+    //}
 }
 
 class TestCaseMain {

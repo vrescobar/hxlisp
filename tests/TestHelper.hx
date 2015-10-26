@@ -1,5 +1,10 @@
-class TestHelpers {
-    static public function assertArrays(arrA:Array<Dynamic>,arrB:Array<Dynamic>):Bool {
+
+
+class TestHelper extends haxe.unit.TestCase {
+    public function assertArrays(arrA:Array<Dynamic>, arrB:Array<Dynamic>) {
+        return this.assertTrue(_assertArrays(arrA, arrB));
+    }
+    private function _assertArrays(arrA:Array<Dynamic>,arrB:Array<Dynamic>):Bool {
         if (arrA.length != arrB.length) {
             trace('Both arrays have different size (${arrA.length} and ${arrB.length}):\n${arrA}\n${arrB}');
             return false;
@@ -10,7 +15,7 @@ class TestHelpers {
                     trace('Subtype is different at ${pos}:\n' + arrA + "\n" + arrB);
                     return false;
                 }
-                if (!assertArrays(arrA[pos], arrB[pos])) {
+                if (!_assertArrays(arrA[pos], arrB[pos])) {
                     trace("Nested Arrays differ:\n" + arrA[pos] + "\n" + arrB[pos]);
                     return false;
                 }
