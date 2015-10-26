@@ -1,5 +1,5 @@
 import hxlisp.Parser.*;
-import hxlisp.Types;
+import hxlisp.Atom;
 
 import haxe.unit.TestCase;
 
@@ -30,7 +30,7 @@ class TestParser extends TestHelper {
                                                                   '(', '*', 'pi', '(', '*', 'r', 'r', ')', ')', ')']);
     }
     public function testAtomizer() {
-        this.assertEquals(atom("0"), Atom.Number(0));
+        this.assertTypes(AtomHelper.atom("0"), 0);
         //this.assertEquals(atom("14"), Atom.Number(14));
         //this.assertEquals(atom("a"), Atom.Symbol("a"));
         //this.assertTrue(parse("a", ["a"]));

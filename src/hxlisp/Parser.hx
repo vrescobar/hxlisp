@@ -1,10 +1,20 @@
 package hxlisp;
 
+import hxlisp.Atom;
+
 class Parser {
     static public function parse(input:String):Array<String>{
         if (input.length == 0) return [];
         return [input];
     }
+    static public function read_from_tokens(strtokens:Array<String>):Array<Dynamic> {
+        return [1];
+    }
+    static public function atom(token:String):Atom {
+        return Atom.Number(Std.parseInt(token));
+    }
+
+
     inline static function isSeparator(str:String) {
         var regex = ~/^[()]{1}/u;
         return if (!regex.match(str)) 0; else regex.matchedPos().len;
@@ -42,6 +52,6 @@ class Parser {
             return tokens.concat([input.substr(0,symbol)]).concat(tokenize(input.substr(symbol)));
         }
         throw 'Don\'t know how to parse that element: ${input.substr(0,15)}...';
-        return []; // type system
+        return []; // type system requires it
     }
 }

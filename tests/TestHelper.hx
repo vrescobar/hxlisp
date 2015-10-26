@@ -1,5 +1,5 @@
 import hxlisp.Atom;
-import hxlisp.Types;
+
 
 class TestHelper extends haxe.unit.TestCase {
     public function assertArrays(arrA:Array<Dynamic>, arrB:Array<Dynamic>) {
@@ -30,9 +30,9 @@ class TestHelper extends haxe.unit.TestCase {
         return true;
     }
 
-    public function assertTypes(original_atom:Enum<Atom>, atom:Enum<Atom>){
+    public function assertTypes(original_atom:Atom, atom:Dynamic){
         switch original_atom {
-            case Atom.Number(n): assertEquals(n, atom);
+            case Atom.Number(n): assertEquals(n,atom);
             case Atom.Symbol(s):  assertEquals(s, atom);
             case Atom.List(l):  assertArrays(l, atom);
         }
