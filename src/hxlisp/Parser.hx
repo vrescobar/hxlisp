@@ -26,6 +26,7 @@ class Parser {
                 read_t.push(nt.contents);
                 continue;
             } else {
+                // Should tokens be here allowed? for a REPL I think so
                 read_t.push(atom(elem));
                 pos += 1;
             }

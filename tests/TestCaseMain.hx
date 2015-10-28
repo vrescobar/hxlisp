@@ -41,7 +41,7 @@ class TestParser extends TestHelper {
         this.assertArrayTypes(read_from_tokens(["(", "(", "(", ")", ")", ")"]), [[[[]]]]);
         this.assertArrayTypes(read_from_tokens(["(", "(", "(", "a", ")", ")", ")"]), [[[["a"]]]]);
         this.assertArrayTypes(read_from_tokens(["(", "1", "(", "(", "a", ")", ")", ")"]), [[1,[["a"]]]]);
-        //this.assertArrayTypes(read_from_tokens(["-1.44", "9", "[", "0.001", "3", "]"]), [-1.44, 9, [0.001, 3]]);
+        this.assertArrayTypes(read_from_tokens(["-1.44", "9", "(", "0.001", "3", ")"]), [-1.44, 9, [0.001, 3]]);
     }
     public function testAtomFloats() {
         this.assertTypes(atom("0"), 0);

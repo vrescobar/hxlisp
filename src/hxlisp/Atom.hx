@@ -9,6 +9,7 @@ enum Atom {
 
 class AtomHelpers {
     static public function atom(token:String):Atom {
+        // Should that allow an unvalid token such a "[" ?
         var maybeFloat = Std.parseFloat(token);
         if (!Math.isNaN(maybeFloat)) {
             return Atom.Number(maybeFloat);
