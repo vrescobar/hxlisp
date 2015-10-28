@@ -27,6 +27,10 @@ class TestParser extends TestHelper {
                                                                   '(', 'begin', '(', 'define', 'r', '10', ')',
                                                                   '(', '*', 'pi', '(', '*', 'r', 'r', ')', ')', ')']);
     }
+    public function test_parse() {
+        this.assertArrayTypes(parse(""), []);
+        this.assertArrayTypes(parse("(begin (define r 10) (* pi (* r r)))"), [['begin', ['define', 'r', 10], ['*', 'pi', ['*', 'r', 'r']]]]);
+    }
     public function testReader() {
         this.assertArrayTypes(read_from_tokens([]), []);
         this.assertArrayTypes(read_from_tokens(["1"]), [1]);

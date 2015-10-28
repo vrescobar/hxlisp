@@ -1,6 +1,6 @@
 package hxlisp;
 
-typedef SExp = Array<Atom>
+typedef SExp = Array<Dynamic> // I believe that should be Array<Atom>
 enum Atom {
     Number(n:Float);
     Symbol(s:String);

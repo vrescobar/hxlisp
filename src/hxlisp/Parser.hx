@@ -3,15 +3,15 @@ package hxlisp;
 import hxlisp.Atom;
 import hxlisp.Atom.AtomHelpers.*;
 
-typedef Parse_result = { captured:Int, contents:Array<Dynamic> };
+typedef Parse_result = { captured:Int, contents:SExp };
 
 class Parser {
-    static public function parse(input:String):Array<String>{
+    static public function parse(input:String):SExp{
         if (input.length == 0) return [];
-        return [input];
+        return read_from_tokens(tokenize(input));
     }
-    static public function read_from_tokens(strtokens:Array<String>):Array<Dynamic>{
-        var read_t:Array<Dynamic> = [];
+    static public function read_from_tokens(strtokens:Array<String>):SExp{
+        var read_t:SExp = [];
         var pos = 0;
         while (pos < strtokens.length) {
             var elem = strtokens[pos];
@@ -35,7 +35,7 @@ class Parser {
     }
 
     static private function read_nested(strtokens:Array<String>, ?init_pos:Int=0):Parse_result{
-        var read_t:Array<Dynamic> = [];
+        var read_t:SExp = [];
         var pos = init_pos;
         while (pos < strtokens.length) {
             var elem = strtokens[pos];
