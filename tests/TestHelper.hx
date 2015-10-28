@@ -31,7 +31,7 @@ class TestHelper extends haxe.unit.TestCase {
         return true;
     }
 
-    public function assertArrayTypes(original_atom:Array<Atom>, atomArr:Array<Dynamic>){
+    public function assertArrayTypes(original_atom:Array<Dynamic>, atomArr:Array<Dynamic>){
         return this.assertTrue(_assertArrays(original_atom, atomArr, function(a,b){return enumExtract(a)!=b;}));
     }
     public function assertTypes(original_atom:Atom, bare_type:Dynamic){
@@ -41,7 +41,7 @@ class TestHelper extends haxe.unit.TestCase {
         return switch original_atom {
             case Atom.Number(n): n;
             case Atom.Symbol(s): s;
-            //case Atom.List(l):  assertArrays(l, atom);
+            case Atom.List(l):  l;
         }
 
 

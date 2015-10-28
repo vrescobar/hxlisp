@@ -1,14 +1,57 @@
 package hxlisp;
 
 import hxlisp.Atom;
+import hxlisp.Atom.AtomHelpers.*;
+
+typedef Parse_result = { captured:Int, contents:Array<Dynamic> };
 
 class Parser {
     static public function parse(input:String):Array<String>{
         if (input.length == 0) return [];
         return [input];
     }
-    static public function read_from_tokens(strtokens:Array<String>):Array<Dynamic> {
-        return [1];
+    static public function read_from_tokens(strtokens:Array<String>):Array<Dynamic>{
+        var read_t:Array<Dynamic> = [];
+        var pos = 0;
+        while (pos < strtokens.length) {
+            var elem = strtokens[pos];
+            if (elem == ")") { // premature closing
+                throw "Error, found a closing parenthesis when none was open";
+
+            }
+            if (elem == "(") {
+                pos += 1;
+                var nt = read_nested(strtokens, pos);
+                pos += nt.captured; // Do not repeat what already made other one
+                read_t.push(nt.contents);
+                continue;
+            } else {
+                read_t.push(atom(elem));
+                pos += 1;
+            }
+        }
+        return read_t;
+    }
+
+    static private function read_nested(strtokens:Array<String>, ?init_pos:Int=0):Parse_result{
+        var read_t:Array<Dynamic> = [];
+        var pos = init_pos;
+        while (pos < strtokens.length) {
+            var elem = strtokens[pos];
+            pos += 1;
+            if (elem == ")") {
+                break; // we finished the nest
+            }
+            if (elem == "(") {
+                var nt = read_nested(strtokens, pos);
+                pos += nt.captured;
+                read_t.push(nt.contents);
+                continue;
+            } else {
+                read_t.push(atom(elem));
+            }
+        }
+        return { captured: pos - init_pos, contents: read_t };
     }
 
     inline static function isSeparator(str:String) {

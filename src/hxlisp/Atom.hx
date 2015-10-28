@@ -1,9 +1,10 @@
 package hxlisp;
 
+typedef SExp = Array<Atom>
 enum Atom {
     Number(n:Float);
     Symbol(s:String);
-    // List(l:Array<Atom>); No
+    List(l:SExp);
 }
 
 class AtomHelpers {
@@ -12,11 +13,16 @@ class AtomHelpers {
         if (!Math.isNaN(maybeFloat)) {
             return Atom.Number(maybeFloat);
         }
+
         // Lists are created explicitly in the parse function
         return Atom.Symbol(token);
     }
 }
 
+/*enum SExp {
+    Atom;
+    Sexp;
+}*/
 
 /*abstract toNumber(Float) {
     inline public function new(x:String){

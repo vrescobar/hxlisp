@@ -27,6 +27,22 @@ class TestParser extends TestHelper {
                                                                   '(', 'begin', '(', 'define', 'r', '10', ')',
                                                                   '(', '*', 'pi', '(', '*', 'r', 'r', ')', ')', ')']);
     }
+    public function testReader() {
+        this.assertArrayTypes(read_from_tokens([]), []);
+        this.assertArrayTypes(read_from_tokens(["1"]), [1]);
+        this.assertArrayTypes(read_from_tokens(["0.15"]), [0.15]);
+        this.assertArrayTypes(read_from_tokens(["1", "2"]), [1, 2]);
+        this.assertArrayTypes(read_from_tokens(["-1.44", "9"]), [-1.44, 9]);
+        this.assertArrayTypes(read_from_tokens(["(", ")"]), [[]]);
+        this.assertArrayTypes(read_from_tokens(["(", "3", ")"]), [[3]]);
+        this.assertArrayTypes(read_from_tokens(["(", ")","(", ")"]), [[],[]]);
+        this.assertArrayTypes(read_from_tokens(["(","def","i","0", ")","(", ")"]), [["def", "i", 0],[]]);
+        this.assertArrayTypes(read_from_tokens(["(", "(", ")", ")"]), [[[]]]);
+        this.assertArrayTypes(read_from_tokens(["(", "(", "(", ")", ")", ")"]), [[[[]]]]);
+        this.assertArrayTypes(read_from_tokens(["(", "(", "(", "a", ")", ")", ")"]), [[[["a"]]]]);
+        this.assertArrayTypes(read_from_tokens(["(", "1", "(", "(", "a", ")", ")", ")"]), [[1,[["a"]]]]);
+        //this.assertArrayTypes(read_from_tokens(["-1.44", "9", "[", "0.001", "3", "]"]), [-1.44, 9, [0.001, 3]]);
+    }
     public function testAtomFloats() {
         this.assertTypes(atom("0"), 0);
         this.assertTypes(atom("14"), 14);
@@ -37,8 +53,6 @@ class TestParser extends TestHelper {
         this.assertTypes(atom("a"), "a");
         this.assertTypes(atom("blablabla!"), "blablabla!");
         this.assertTypes(atom("Int->Float"), "Int->Float");
-
-
     }
 }
 
