@@ -54,42 +54,29 @@ class Parser {
         }
         return { captured: pos - init_pos, contents: read_t };
     }
+    inline static function new_rule(reg:EReg): String -> Int {
+        return function (str:String):Int {
+            return if (!reg.match(str)) 0; else reg.matchedPos().len;
+        }
+    }
 
-    inline static function isSeparator(str:String) {
-        var regex = ~/^[()]{1}/u;
-        return if (!regex.match(str)) 0; else regex.matchedPos().len;
-    }
-    inline static function trailSpace(str:String){
-        var regex = ~/^[\n\t ]+/u;
-        return if (!regex.match(str)) 0; else regex.matchedPos().len;
-    }
-    inline static function isNumber(str:String):Int {
-        var regex = ~/^[0-9]+/u;
-        return if (!regex.match(str)) 0; else regex.matchedPos().len;
-    }
-    inline static function isSymbol(str:String):Int {
-        var regex = ~/^[a-z-A-Z0-9?\-*-><|>&%.]+/u;
-        return if (!regex.match(str)) 0; else regex.matchedPos().len;
-    }
     public static function tokenize(input:String):Array<String> {
         var tokens = [];
+        var isSeparator = new_rule(~/^[()]{1}/u);
+        var isSymbol = new_rule(~/^[a-z-A-Z0-9?\-*-><|>&%.]+/u);
+        var trailSpace = new_rule(~/^[\n\t ]+/u);
+        var isNumber = new_rule(~/^[0-9]+/u);
+
         if (input.length == 0) return [];
         if (trailSpace(input)>0) {
-            var tmp = tokenize(input.substr(1));
-            return tokens.concat(tmp);
+            return tokens.concat(tokenize(input.substr(1)));
         }
-        var separator = isSeparator(input);
-        if (separator>0) {
-            var tmp = tokenize(input.substr(separator));
-            return tokens.concat([input.substr(0,separator)]).concat(tmp);
-        }
-        var number = isNumber(input);
-        if (number>0) {
-            return tokens.concat([input.substr(0,number)]).concat(tokenize(input.substr(number)));
-        }
-        var symbol = isSymbol(input);
-        if (symbol>0) {
-            return tokens.concat([input.substr(0,symbol)]).concat(tokenize(input.substr(symbol)));
+
+        for (rule_catcher in [isSeparator, isNumber, isSymbol]) {
+            var chars_catched = rule_catcher(input);
+            if (chars_catched>0) {
+                return tokens.concat([input.substr(0,chars_catched)]).concat(tokenize(input.substr(chars_catched)));
+            }
         }
         throw 'Don\'t know how to parse that element: ${input.substr(0,15)}...';
         return []; // type system requires it
