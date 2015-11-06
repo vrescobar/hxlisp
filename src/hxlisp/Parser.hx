@@ -1,6 +1,4 @@
 package hxlisp;
-
-import hxlisp.SExpr;
 import hxlisp.SExpr.SExprUtils.*;
 
 typedef Parse_result = { captured:Int, contents:Dynamic };

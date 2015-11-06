@@ -1,6 +1,5 @@
 import hxlisp.Environment;
 import hxlisp.Parser.*;
-import hxlisp.SExpr;
 import hxlisp.SExpr.SExprUtils.*;
 import TestHelper;
 
