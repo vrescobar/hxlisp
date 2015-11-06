@@ -34,14 +34,15 @@ class TestHelper extends haxe.unit.TestCase {
     public function assertArrayTypes(original_atom:Array<Dynamic>, atomArr:Array<Dynamic>){
         return this.assertTrue(_assertArrays(original_atom, atomArr, function(a,b){return enumExtract(a)!=b;}));
     }
-    public function assertTypes(original_atom:Atom, bare_type:Dynamic){
-        return assertEquals(enumExtract(original_atom), bare_type);
+    public function assertTypes(original_atom:SExpr, bare_type:Dynamic){
+        return this.assertEquals(enumExtract(original_atom), bare_type);
     }
-    private function enumExtract(original_atom:Atom):Dynamic{
+    private function enumExtract(original_atom:SExpr):Dynamic{
         return switch original_atom {
-            case Atom.Number(n): n;
-            case Atom.Symbol(s): s;
-            case Atom.List(l):  l;
+            case SExpr.Nil: false;
+            case SExpr.Number(n): n;
+            case SExpr.Symbol(s): s;
+            case SExpr.List(l): [for (sexpr in l) enumExtract(sexpr)];
         }
 
 

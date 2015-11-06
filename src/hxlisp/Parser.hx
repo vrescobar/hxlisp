@@ -1,17 +1,17 @@
 package hxlisp;
 
 import hxlisp.Atom;
-import hxlisp.Atom.AtomHelpers.*;
+import hxlisp.Atom.Atom.*;
 
-typedef Parse_result = { captured:Int, contents:SExp };
+typedef Parse_result = { captured:Int, contents:Dynamic };
 
 class Parser {
-    static public function parse(input:String):SExp{
+    static public function parse(input:String):Dynamic{
         if (input.length == 0) return [];
         return read_from_tokens(tokenize(input));
     }
-    static public function read_from_tokens(strtokens:Array<String>):SExp{
-        var read_t:SExp = [];
+    static public function read_from_tokens(strtokens:Array<String>):Dynamic{
+        var read_t:Dynamic = [];
         var pos = 0;
         while (pos < strtokens.length) {
             var elem = strtokens[pos];
@@ -35,7 +35,7 @@ class Parser {
     }
 
     static private function read_nested(strtokens:Array<String>, ?init_pos:Int=0):Parse_result{
-        var read_t:SExp = [];
+        var read_t:Dynamic = [];
         var pos = init_pos;
         while (pos < strtokens.length) {
             var elem = strtokens[pos];

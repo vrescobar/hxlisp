@@ -1,6 +1,8 @@
+import hxlisp.Environment;
 import hxlisp.Parser.*;
 import hxlisp.Atom;
-import hxlisp.Atom.AtomHelpers.*;
+import hxlisp.Atom.*;
+import hxlisp.Environment;
 import TestHelper;
 
 
@@ -60,10 +62,22 @@ class TestParser extends TestHelper {
     }
 }
 
+class TestRoots extends TestHelper {
+
+
+    public function testBasics(){
+        var env = new Environment();
+        //this.assertEquals(Std.string(env.stdenv(atom("quote"))("a")), Std.string(atom("a")));
+        //this.assertTypes(env.stdenv(atom("quote"))("abc") , "abc");
+        //this.assertTypes(env.stdenv(atom("quote"))("abc") , "abc");
+    }
+}
+
 class TestCaseMain {
     static function main() {
         var r = new haxe.unit.TestRunner();
         r.add(new TestParser());
+        r.add(new TestRoots());
         r.run();
     }
 }

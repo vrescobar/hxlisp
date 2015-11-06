@@ -1,45 +1,28 @@
 package hxlisp;
 
-typedef SExp = Array<Dynamic> // I believe that should be Array<Atom>
-enum Atom {
-    Number(n:Float);
-    Symbol(s:String);
-    List(l:SExp);
+
+enum SExpr {
+    Number(i:Float);
+    Symbol  (s:String);
+    Nil;
+    List  (ss:Array<SExpr>);
 }
 
-class AtomHelpers {
-    static public function atom(token:String):Atom {
+
+class Atom {
+    static public function Atom(token:String) {
+        return atom(token);
+    }
+    static public function atom(token:String){
         // Should that allow an unvalid token such a "[" ?
         var maybeFloat = Std.parseFloat(token);
         if (!Math.isNaN(maybeFloat)) {
-            return Atom.Number(maybeFloat);
+            return SExpr.Number(maybeFloat);
         }
-
         // Lists are created explicitly in the parse function
-        return Atom.Symbol(token);
+        return SExpr.Symbol(token);
     }
 }
-
-/*enum SExp {
-    Atom;
-    Sexp;
-}*/
-
-/*abstract toNumber(Float) {
-    inline public function new(x:String){
-        var maybeInt = Std.parseInt(x);
-        if (Std.is(maybeInt, Int)) {
-            this = maybeInt;
-        } else {
-            var maybeFloat = Std.parseFloat(x);
-            if (Std.is(maybeFloat, Float)) {
-                this = maybeFloat;
-            }
-            throw('Cannot parse Number: "${x}"');
-        }
-
-    }
-}*/
 
 
 /*
