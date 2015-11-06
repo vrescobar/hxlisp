@@ -1,3 +1,4 @@
+import hxlisp.SExpr;
 import hxlisp.Environment;
 import hxlisp.Parser.*;
 import hxlisp.SExpr.SExprUtils.*;
@@ -60,8 +61,21 @@ class TestParser extends TestHelper {
     }
 }
 
-class TestRoots extends TestHelper {
+class TestSExpr extends TestHelper {
+    public function test_Enum2Symbol(){
+        var List = SExpr.List;
+        this.assertArrays(sexpr_values(List([])), []);
+        this.assertArrays(sexpr_values(List([List([])])), [[]]);
+        this.assertArrays(sexpr_values(List([Symbol("add"), Number(5), Number(10), Number(15)])),
+                          ["add", 5, 10, 15]);
+        this.assertArrays(sexpr_values(List([Symbol("a"), List([ Symbol("b"), Symbol("c")]), Symbol("d")])),
+                          ["a", ["b", "c"], "d"]);
 
+        this.assertArrays(sexpr_values(List([Symbol("cdr"), List([Symbol("cons"), Number(10), List([ Symbol("cons"), Number(15), Nil])])])),
+                                       ["cdr", ["cons", 10, ["cons", 15, false]]]);
+    }
+}
+class TestRoots extends TestHelper {
 
     public function testBasics(){
         var env = new Environment();
@@ -77,6 +91,7 @@ class TestCaseMain {
         var r = new haxe.unit.TestRunner();
         r.add(new TestParser());
         r.add(new TestRoots());
+        r.add(new TestSExpr());
         r.run();
     }
 }

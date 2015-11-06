@@ -2,10 +2,10 @@ package hxlisp;
 
 
 enum SExpr {
-    Number(i:Float);
-    Symbol  (s:String);
     Nil;
-    List  (ss:Array<SExpr>);
+    Number (i:Float);
+    Symbol (s:String);
+    List   (ss:Array<SExpr>);
 }
 
 
@@ -27,7 +27,10 @@ class SExprUtils {
             case SExpr.Nil: false;
             case SExpr.Number(n): n;
             case SExpr.Symbol(s): s;
-            case SExpr.List(l): [for (sexpr in l) sexpr_values(sexpr)];
-        }
+            case SExpr.List(ss): {
+                    // if (ss.length == 0) false // here is maybe a bug
+                    [for (sexpr in ss) sexpr_values(sexpr)];
+                    };
+    }
     }
 }
