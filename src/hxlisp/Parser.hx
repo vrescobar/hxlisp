@@ -1,7 +1,7 @@
 package hxlisp;
 
-import hxlisp.Atom;
-import hxlisp.Atom.Atom.*;
+import hxlisp.SExpr;
+import hxlisp.SExpr.SExprUtils.*;
 
 typedef Parse_result = { captured:Int, contents:Dynamic };
 
@@ -27,7 +27,7 @@ class Parser {
                 continue;
             } else {
                 // Should tokens be here allowed? for a REPL I think so
-                read_t.push(atom(elem));
+                read_t.push(toSexpr(elem));
                 pos += 1;
             }
         }
@@ -49,7 +49,7 @@ class Parser {
                 read_t.push(nt.contents);
                 continue;
             } else {
-                read_t.push(atom(elem));
+                read_t.push(toSexpr(elem));
             }
         }
         return { captured: pos - init_pos, contents: read_t };

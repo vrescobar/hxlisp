@@ -1,8 +1,7 @@
 import hxlisp.Environment;
 import hxlisp.Parser.*;
-import hxlisp.Atom;
-import hxlisp.Atom.*;
-import hxlisp.Environment;
+import hxlisp.SExpr;
+import hxlisp.SExpr.SExprUtils.*;
 import TestHelper;
 
 
@@ -50,15 +49,15 @@ class TestParser extends TestHelper {
         this.assertArrayTypes(read_from_tokens(["-1.44", "9", "(", "0.001", "3", ")"]), [-1.44, 9, [0.001, 3]]);
     }
     public function testAtomFloats() {
-        this.assertTypes(atom("0"), 0);
-        this.assertTypes(atom("14"), 14);
-        this.assertTypes(atom("0.32"), 0.32);
-        this.assertTypes(atom("-990.3123000002"), -990.3123000002);
+        this.assertTypes(toSexpr("0"), 0);
+        this.assertTypes(toSexpr("14"), 14);
+        this.assertTypes(toSexpr("0.32"), 0.32);
+        this.assertTypes(toSexpr("-990.3123000002"), -990.3123000002);
     }
     public function testAtomStrings() {
-        this.assertTypes(atom("a"), "a");
-        this.assertTypes(atom("blablabla!"), "blablabla!");
-        this.assertTypes(atom("Int->Float"), "Int->Float");
+        this.assertTypes(toSexpr("a"), "a");
+        this.assertTypes(toSexpr("blablabla!"), "blablabla!");
+        this.assertTypes(toSexpr("Int->Float"), "Int->Float");
     }
 }
 
@@ -67,9 +66,10 @@ class TestRoots extends TestHelper {
 
     public function testBasics(){
         var env = new Environment();
-        //this.assertEquals(Std.string(env.stdenv(atom("quote"))("a")), Std.string(atom("a")));
-        //this.assertTypes(env.stdenv(atom("quote"))("abc") , "abc");
-        //this.assertTypes(env.stdenv(atom("quote"))("abc") , "abc");
+        this.assertTrue(true);
+        //this.assertEquals(Std.string(env.stdenv(toSexpr("quote"))("a")), Std.string(toSexpr("a")));
+        //this.assertTypes(env.stdenv(toSexpr("quote"))("abc") , "abc");
+        //this.assertTypes(env.stdenv(toSexpr("quote"))("abc") , "abc");
     }
 }
 

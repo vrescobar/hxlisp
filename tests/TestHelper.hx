@@ -1,5 +1,7 @@
 import Array;
-import hxlisp.Atom;
+import hxlisp.SExpr;
+import hxlisp.SExpr.SExprUtils.*;
+
 
 
 class TestHelper extends haxe.unit.TestCase {
@@ -32,19 +34,9 @@ class TestHelper extends haxe.unit.TestCase {
     }
 
     public function assertArrayTypes(original_atom:Array<Dynamic>, atomArr:Array<Dynamic>){
-        return this.assertTrue(_assertArrays(original_atom, atomArr, function(a,b){return enumExtract(a)!=b;}));
+        return this.assertTrue(_assertArrays(original_atom, atomArr, function(a,b){return sexpr_values(a)!=b;}));
     }
     public function assertTypes(original_atom:SExpr, bare_type:Dynamic){
-        return this.assertEquals(enumExtract(original_atom), bare_type);
-    }
-    private function enumExtract(original_atom:SExpr):Dynamic{
-        return switch original_atom {
-            case SExpr.Nil: false;
-            case SExpr.Number(n): n;
-            case SExpr.Symbol(s): s;
-            case SExpr.List(l): [for (sexpr in l) enumExtract(sexpr)];
-        }
-
-
+        return this.assertEquals(sexpr_values(original_atom), bare_type);
     }
 }

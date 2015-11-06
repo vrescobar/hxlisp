@@ -1,15 +1,14 @@
 package hxlisp;
-import haxe.macro.Expr;
-import hxlisp.Atom.Atom.*;
-import hxlisp.Atom;
-import hxlisp.Atom.*;
+
+import hxlisp.SExpr.SExpr.*;
+import hxlisp.SExpr;
 import Math;
 
 class Environment{
-    private var std_env:Map<Atom.Atom, Dynamic>;
+    private var std_env:Map<SExpr.SExpr, Dynamic>;
     public function new() {
         var d = new Dummy();
-        var env:Map<Atom, Dynamic> = new Map();
+        var env:Map<SExpr, Dynamic> = new Map();
 
         /*env.set(atom("quote"), function(x:String):Atom { return atom(x);});
         env.set(atom("atom"), function(x:String):Dynamic { return if (Std.is(x,Atom)) x else [];});
