@@ -1,11 +1,13 @@
 package;
 
 
+import hxlisp.SExpr;
+import hxlisp.SExpr;
 import hxlisp.Environment;
-/*import hxlisp.Symbol;
-import hxlisp.Symbol.SymbolHelpers.*;
+import hxlisp.Eval.*;
 import hxlisp.Parser.*;
-*/
+import hxlisp.SExpr.SExprUtils.*;
+
 
 
 
@@ -14,11 +16,11 @@ import hxlisp.Parser.*;
 class HxLisp {
     static function main() {
         //var i = parse("(begin (define r 10) (* pi (* r r)))");
-        //trace('i: "${i}"');
         var env = new Environment();
-        trace(l.length);
-
-
+        var tree:SExpr = mkSexpr(parse("(/ 1 2)"));
+        var a = SExpr.List(sexpr_values(tree)[0]);
+        var program = eval(a, env.std_env);
+        trace('${tree} -> ${program}');
     }
 
 }

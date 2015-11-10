@@ -1,6 +1,10 @@
 package hxlisp;
 
 
+import Array;
+import hxlisp.SExpr;
+import Array;
+import hxlisp.SExpr;
 enum SExpr {
     Nil;
     Number (i:Float);
@@ -20,10 +24,18 @@ class SExprUtils {
             return SExpr.Number(maybeFloat);
         }
         // Lists are created explicitly in the parse function
+        if (token == "Nil") return SExpr.Nil;
         return SExpr.Symbol(token);
     }
+    static public function mkSexpr(elem:Dynamic):SExpr {
+        return if (Std.is(elem, Array)) {
+            var elems:Array<SExpr> = elem;
+            List([for (e in elems) mkSexpr(e)]);
+        } else toSexpr(elem);
+
+    }
     static public function sexpr_values(original_atom:SExpr):Dynamic{
-        return switch original_atom {
+        return switch (original_atom) {
             case SExpr.Nil: false;
             case SExpr.Number(n): n;
             case SExpr.Symbol(s): s;

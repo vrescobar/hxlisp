@@ -2,16 +2,17 @@ package hxlisp;
 
 import hxlisp.SExpr.SExpr.*;
 import hxlisp.SExpr;
+using hxlisp.SExpr;
 import Math;
 
 class Environment{
-    private var std_env:Map<SExpr.SExpr, Dynamic>;
+    public var std_env:Map<SExpr.SExpr, Dynamic>;
     public function new() {
         var d = new Dummy();
         var env:Map<SExpr, Dynamic> = new Map();
 
-        /*env.set(atom("quote"), function(x:String):Atom { return atom(x);});
-        env.set(atom("atom"), function(x:String):Dynamic { return if (Std.is(x,Atom)) x else [];});
+        env.set(Symbol("quote"), function(x):SExpr { return x.toSexpr();});
+        /*env.set(atom("atom"), function(x:String):Dynamic { return if (Std.is(x,Atom)) x else [];});
         // eq
         // car
         // cdr
@@ -20,21 +21,21 @@ class Environment{
 
         // define
         // lambda
-        // let
+        // let*/
 
-        env.set(atom("+"), function(x,y) { return x+y;});
-        env.set(atom("-"), function(x,y) { return x-y;});
-        env.set(atom("*"), function(x,y) { return x*y;});
-        env.set(atom("/"), function(x,y) { return x/y;});
+        env.set(Symbol("+"), function(x,y) { return x+y;});
+        env.set(Symbol("-"), function(x,y) { return x-y;});
+        env.set(Symbol("*"), function(x,y) { return x*y;});
+        env.set(Symbol("/"), function(x,y) { return x/y;});
 
-        env.set(atom(">"), function(x,y) { return x>y;});
-        env.set(atom("<"), function(x,y) { return x<y;});
-        env.set(atom("="), function(x,y) { return x == y;});
-        env.set(atom(">="), function(x,y) { return x>=y;});
-        env.set(atom("<="), function(x,y) { return x<=y;});
-        */
-        /*env.set(atom("abs"), Math.abs);
-        env.set(atom("append"), function(x,y) { return x.concat(y);}); //TODO: arrays?
+        env.set(Symbol(">"), function(x,y) { return x>y;});
+        env.set(Symbol("<"), function(x,y) { return x<y;});
+        env.set(Symbol("="), function(x,y) { return x == y;});
+        env.set(Symbol(">="), function(x,y) { return x>=y;});
+        env.set(Symbol("<="), function(x,y) { return x<=y;});
+
+        env.set(Symbol("abs"), Math.abs);
+        /*env.set(atom("append"), function(x,y) { return x.concat(y);}); //TODO: arrays?
         env.set(atom("apply"), function(func,args) { return Reflect.callMethod(d, func,args);});
         env.set(atom("begin"), function(x:Array<Dynamic>) { return x[x.length -1];});
         env.set(atom("car"), function(x) { return x[0];});
