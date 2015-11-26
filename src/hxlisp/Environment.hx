@@ -1,5 +1,6 @@
 package hxlisp;
 
+import haxe.io.Eof;
 import hxlisp.SExpr.SExpr.*;
 import hxlisp.SExpr;
 using hxlisp.SExpr;
@@ -8,7 +9,6 @@ import Math;
 class Environment{
     public var std_env:Map<SExpr.SExpr, Dynamic>;
     public function new() {
-        var d = new Dummy();
         var env:Map<SExpr, Dynamic> = new Map();
 
         env.set(Symbol("quote"), function(x):SExpr { return x.toSexpr();});
@@ -33,6 +33,7 @@ class Environment{
         env.set(Symbol("="), function(x,y) { return x == y;});
         env.set(Symbol(">="), function(x,y) { return x>=y;});
         env.set(Symbol("<="), function(x,y) { return x<=y;});
+        env.set(Symbol("exit"), function(x,y) { throw Eof;});
 
         env.set(Symbol("abs"), Math.abs);
         /*env.set(atom("append"), function(x,y) { return x.concat(y);}); //TODO: arrays?
@@ -59,13 +60,6 @@ class Environment{
         this.std_env = env;
 
     }
-    /*macro static function mklist(args:Array<Expr>) {
-        var l = new SExp();
-        for (v in args) {
-            l.push(v);
-        }
-        return macro null;
-    }*/
 
     public function stdenv(f):Dynamic
     {
@@ -74,7 +68,3 @@ class Environment{
     }
 }
 
-
-class Dummy implements Dynamic {
-    public function new () {}
-}

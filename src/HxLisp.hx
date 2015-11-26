@@ -1,26 +1,22 @@
 package;
 
 
+import hxlisp.REPL;
 import hxlisp.SExpr;
-import hxlisp.SExpr;
-import hxlisp.Environment;
-import hxlisp.Eval.*;
-import hxlisp.Parser.*;
-import hxlisp.SExpr.SExprUtils.*;
+import Sys;
 
-
-
+import sys.io.FileInput;
 
 
 
 class HxLisp {
     static function main() {
-        //var i = parse("(begin (define r 10) (* pi (* r r)))");
-        var env = new Environment();
-        var tree:SExpr = mkSexpr(parse("(/ 1 2)"));
-        var a = SExpr.List(sexpr_values(tree)[0]);
-        var program = eval(a, env.std_env);
-        trace('${tree} -> ${program}');
+        var stdin = Sys.stdin();
+        var repl = new REPL(stdin.readLine, Sys.print);
+        repl.loop();
+        stdin.close();
+        Sys.println("Bye!");
+
     }
 
 }
