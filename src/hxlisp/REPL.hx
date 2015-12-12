@@ -8,12 +8,11 @@ import hxlisp.SExpr;
 import hxlisp.SExpr.SExprUtils.*;
 
 class REPL {
-    private var input:Dynamic;
-    private var output:Dynamic;
+    private var input:(Void -> String);
+    private var output:(String -> Void);
     private var env:Dynamic;
-
     public function new(input, output) {
-        this.output = function(x:String) { return output(' ${x}\n'); };
+        this.output = function(x:String) { output(' ${x}\n'); };
         this.input = function() {
                             output('hxlisp => ');
                             return input(); };

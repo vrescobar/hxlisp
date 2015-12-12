@@ -1,17 +1,27 @@
 package hxlisp;
 
-import haxe.io.Eof;
 import hxlisp.SExpr.SExpr.*;
 import hxlisp.SExpr;
 using hxlisp.SExpr;
 import Math;
+import Lambda;
 
+typedef Callable = {
+    var name:String;
+    var func:Array<Dynamic> -> Dynamic;
+    var unlim_args:Bool;
+    @:optional var args:Int;
+    @:optional var file:String;
+    @:optional var line:Int;
+}
+
+//@:rtti
 class Environment{
-    public var std_env:Map<SExpr.SExpr, Dynamic>;
+    public var std_env:Map<SExpr.SExpr, Callable>;
     public function new() {
-        var env:Map<SExpr, Dynamic> = new Map();
+        var env:Map<SExpr, Callable> = new Map();
 
-        env.set(Symbol("quote"), function(x):SExpr { return x.toSexpr();});
+        //env.set(Symbol("quote"), function(x):SExpr { return x.toSexpr();});
         /*env.set(atom("atom"), function(x:String):Dynamic { return if (Std.is(x,Atom)) x else [];});
         // eq
         // car
@@ -22,9 +32,14 @@ class Environment{
         // define
         // lambda
         // let*/
+        env.set(Symbol("+"), { name: "+",
+                               func: function(arr:Array<Dynamic>) {
+                                                var x = 0;
+                                                for (elem in arr) x+=elem;
+                                                return x;},
+                               unlim_args: true });
 
-        env.set(Symbol("+"), function(x,y) { return x+y;});
-        env.set(Symbol("-"), function(x,y) { return x-y;});
+        /*env.set(Symbol("-"), function(x,y) { return x-y;});
         env.set(Symbol("*"), function(x,y) { return x*y;});
         env.set(Symbol("/"), function(x,y) { return x/y;});
 
@@ -35,7 +50,7 @@ class Environment{
         env.set(Symbol("<="), function(x,y) { return x<=y;});
         env.set(Symbol("exit"), function(x,y) { throw Eof;});
 
-        env.set(Symbol("abs"), Math.abs);
+        env.set(Symbol("abs"), Math.abs);*/
         /*env.set(atom("append"), function(x,y) { return x.concat(y);}); //TODO: arrays?
         env.set(atom("apply"), function(func,args) { return Reflect.callMethod(d, func,args);});
         env.set(atom("begin"), function(x:Array<Dynamic>) { return x[x.length -1];});
@@ -61,7 +76,7 @@ class Environment{
 
     }
 
-    public function stdenv(f):Dynamic
+    public function stdenv(f):Callable
     {
         if (!this.std_env.exists(f)) throw "Function not defined";
         return this.std_env.get(f);
